@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../../config/database.js";
 
-export const Credor = sequelize.define("saldo", {
+export const Saldo = sequelize.define("saldo", {
     id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,

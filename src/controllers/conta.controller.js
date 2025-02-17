@@ -1,3 +1,4 @@
+import { Saldo } from "../models/Saldo.js";
 import { criarDividaService, listarDividasService, listarDividasByIdService, listarDividaById } from "../services/conta.service.js";
 
 
@@ -47,20 +48,5 @@ const listarDividasByCredor = async(req, res) =>{
 
 }
 
-const pagar = async(req, res) =>{
-    const { idDivida } = req.params
 
-    try{
-
-        const divida = await listarDividaById(idDivida)
-        res.send({divida})
-
-
-    } catch (err) {
-        res.status(500).send({ message: "Erro no server", err});
-    }
-}
-
-
-
-export { criarDivida, listarDividas, listarDividasByCredor, pagar }
+export { criarDivida, listarDividas, listarDividasByCredor }
