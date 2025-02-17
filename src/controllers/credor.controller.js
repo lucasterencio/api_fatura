@@ -1,4 +1,4 @@
-import { createService, listarService, criarDividaService, listarDividasService } from "../services/credor.service.js";
+import { createService, listarService, criarDividaService, listarDividasService, listarDividasByIdService } from "../services/credor.service.js";
 
 
 const create = async(req, res) =>{
@@ -39,7 +39,8 @@ const listarCredores = async(req, res) =>{
 
 const criarDivida = async(req, res) =>{
     const { estabelecimento, data_compra, parcelas, valor } = req.body
-    const credorId = req.credorId
+    // const credorId = req.credorId
+    const { id } = req.params
 
     if(!estabelecimento) return res.status(400).send({ message: "Estabelecimento é obrigatório" });
     if(!data_compra) return res.status(400).send({ message: "A data da compra é obrigatória" });
@@ -47,7 +48,7 @@ const criarDivida = async(req, res) =>{
     if(!valor) return res.status(400).send({ message: "Informe o valor da compra" });
 
     try{
-        const divida = await criarDividaService(estabelecimento, data_compra, parcelas, valor, credorId)
+        const divida = await criarDividaService(estabelecimento, data_compra, parcelas, valor, id)
 
         if(!divida) return res.status(400).send({message: "Erro ao criar a divida"})
 
@@ -70,5 +71,18 @@ const listarDividas = async(req, res) =>{
     }
 }
 
+const listarDividasByCredor = async(req, res) =>{
+    const { idCredor } = req.params
 
-export { create, listarCredores, criarDivida, listarDividas }
+    try{
+        const dividas = await listarDividasByIdService(idCredor)
+        res.send({dividas})
+    } catch (err) {
+        res.status(500).send({ message: "Erro no server", err});
+    }
+
+}
+
+
+
+export { create, listarCredores, criarDivida, listarDividas, listarDividasByCredor }

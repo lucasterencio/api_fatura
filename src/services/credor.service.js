@@ -16,4 +16,12 @@ export const criarDividaService = (estabelecimento, data_compra, parcelas, valor
     credor_id
 })
 
-export const listarDividasService = () => Conta.findAll()
+export const listarDividasService = () => Conta.findAll({include: [{
+    model: Credor,
+    attributes: ["nome", "telefone"]
+}]})
+
+export const listarDividasByIdService = (id) => Conta.findAll({where: {credor_id:id}, include: [{
+    model: Credor,
+    attributes: ["nome", "telefone"]
+}]})
