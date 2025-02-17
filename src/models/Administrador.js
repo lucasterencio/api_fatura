@@ -9,6 +9,12 @@ export const Administrador = sequelize.define("administrador", {
         allowNull: false
     },
 
+    user_name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true
+    },
+
     email: {
         type: DataTypes.STRING,
         allowNull: false,
