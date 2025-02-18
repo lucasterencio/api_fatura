@@ -1,5 +1,11 @@
 import { Saldo } from "../models/Saldo.js";
-import { criarDividaService, listarDividasService, listarDividasByIdService, listarDividaById } from "../services/conta.service.js";
+import { criarDividaService, 
+         listarDividasService, 
+         listarDividasByIdService, 
+         listarDividaById,
+         atualizarParcelaService,
+        } from "../services/conta.service.js";
+import { autualizarParcelaFunction } from "./atualizarParcela.js";
 
 
 const criarDivida = async(req, res) =>{
@@ -48,5 +54,22 @@ const listarDividasByCredor = async(req, res) =>{
 
 }
 
+const autualizarParcela = async(req, res) =>{
+    const { id } = req.params
 
-export { criarDivida, listarDividas, listarDividasByCredor }
+    const divida = await listarDividaById(id)
+    if(!divida) return res.status(400).send({message: "Divida nao existe"})
+
+    try{
+        const novaParcela = await autualizarParcelaFunction(divida.parcelas)
+        await atualizarParcelaService(id, novaParcela)
+
+
+        res.send({message: "Parcelas atualizadas", divida})
+    } catch (err) {
+        res.status(500).send({ message: "Erro no server", err});
+    }
+}
+
+
+export { criarDivida, listarDividas, listarDividasByCredor, autualizarParcela }
