@@ -1,14 +1,16 @@
-import { Saldo } from "../models/Saldo.js";
 import { criarDividaService, 
          listarDividasService, 
          listarDividasByIdService, 
          listarDividaById,
          atualizarParcelaService,
+         atualizarStatusService,
+         resetarStatusService
         } from "../services/conta.service.js";
+
 import { autualizarParcelaFunction } from "./atualizarParcela.js";
 
 
-const criarDivida = async(req, res) =>{
+export const criarDivida = async(req, res) =>{
     const { estabelecimento, data_compra, parcelas, valor } = req.body
     // const credorId = req.credorId
     const { id } = req.params
@@ -32,7 +34,7 @@ const criarDivida = async(req, res) =>{
     
 }
 
-const listarDividas = async(req, res) =>{
+export const listarDividas = async(req, res) =>{
     try{
         const dividas = await listarDividasService()
 
@@ -42,7 +44,7 @@ const listarDividas = async(req, res) =>{
     }
 }
 
-const listarDividasByCredor = async(req, res) =>{
+export const listarDividasByCredor = async(req, res) =>{
     const { idCredor } = req.params
 
     try{
@@ -54,7 +56,7 @@ const listarDividasByCredor = async(req, res) =>{
 
 }
 
-const autualizarParcela = async(req, res) =>{
+export const autualizarParcela = async(req, res) =>{
     const { id } = req.params
 
     const divida = await listarDividaById(id)
@@ -71,5 +73,23 @@ const autualizarParcela = async(req, res) =>{
     }
 }
 
+export const alterarStatus = async(req, res) =>{
+    const { id } = req.params
 
-export { criarDivida, listarDividas, listarDividasByCredor, autualizarParcela }
+    try{
+        await atualizarStatusService(id)
+        res.status(200).send({message: "Status alterado"})
+    } catch (err) {
+        res.status(500).send({ message: "Erro no server", err});
+    }
+}
+export const resetarStatus = async(req, res) =>{
+
+    try{
+        await resetarStatusService()
+        res.status(200).send({message: "Todos os status voltaram ao padrao"})
+    } catch (err) {
+        res.status(500).send({ message: "Erro no server", err});
+    }
+}
+
