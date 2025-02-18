@@ -1,6 +1,5 @@
 import { Conta } from "../models/Conta.js"
 import { Credor } from "../models/Credor.js"
-import { Saldo } from "../models/Saldo.js"
 
 export const criarDividaService = (estabelecimento, data_compra, parcelas, valor, credor_id) => Conta.create({
     estabelecimento,
@@ -25,10 +24,8 @@ export const listarDividaById = (id) => Conta.findOne({where: {id}})
 
 export const atualizarParcelaService = (id, parcelas) => Conta.update({parcelas:parcelas}, {where: {id}})
 
-export const saldoService = () => Saldo.findOne()
-
-export const resetarSaldoService = (id) => Saldo.update({valor: 0}, {where: {id}})
-
 export const atualizarStatusService = (id) => Conta.update({status: "Pago"}, {where: {id}}) 
 export const resetarStatusService = () => Conta.update({status: "Pendente"}, {where: {}}) 
+
+export const deletarContaService = (id) => Conta.destroy({where: {id}})
 

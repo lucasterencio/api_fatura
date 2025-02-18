@@ -5,8 +5,6 @@ import { criarDividaService,
          atualizarParcelaService,
          atualizarStatusService,
          resetarStatusService,
-         saldoService,
-         resetarSaldoService
         } from "../services/conta.service.js";
 
 import { autualizarParcelaFunction } from "./atualizarParcela.js";
@@ -59,17 +57,17 @@ export const listarDividasByCredor = async(req, res) =>{
 }
 
 export const autualizarParcela = async(req, res) =>{
-    const { id } = req.params
-
-    const divida = await listarDividaById(id)
-    if(!divida) return res.status(400).send({message: "Divida nao existe"})
+    const divida = req.divida
+    const idDivida = req.idDivida
+ 
 
     try{
         const novaParcela = await autualizarParcelaFunction(divida.parcelas)
-        await atualizarParcelaService(id, novaParcela)
+        await atualizarParcelaService(idDivida, novaParcela)
+        const dividaAtualizada = await listarDividaById(idDivida)
 
 
-        res.send({message: "Parcelas atualizadas", divida})
+        res.send({message: "Parcelas atualizadas", dividaAtualizada})
     } catch (err) {
         res.status(500).send({ message: "Erro no server", err});
     }
@@ -90,39 +88,6 @@ export const resetarStatus = async(req, res) =>{
     try{
         await resetarStatusService()
         res.status(200).send({message: "Todos os status voltaram ao padrao"})
-    } catch (err) {
-        res.status(500).send({ message: "Erro no server", err});
-    }
-}
-
-export const pagar = async(req, res) =>{
-    const { id } = req.params
-    
-
-    try{
-        
-        const divida = await listarDividaById(id)
-        const valor = divida.valor
-
-        const saldo = await saldoService()
-        await saldo.increment("valor", {by: valor})
-        await saldo.reload()
-
-        res.status(200).send({saldo})
-    } catch (err) {
-        res.status(500).send({ message: "Erro no server", err});
-    }
-}
-
-export const resetarSaldo = async(req, res) =>{
-    
-    try{  
-        const saldo = await saldoService()
-        const id = saldo.id
-
-        await resetarSaldoService(id)
-
-        res.status(200).send({message: "Saldo resetado com sucesso"})
     } catch (err) {
         res.status(500).send({ message: "Erro no server", err});
     }
