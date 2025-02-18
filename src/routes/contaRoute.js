@@ -7,7 +7,8 @@ import {
     autualizarParcela, 
     alterarStatus,
     resetarStatus,
-    pagar
+    pagar,
+    resetarSaldo
  } from "../controllers/conta.controller.js";
 
 
@@ -20,6 +21,8 @@ router.get("/dividas/:idCredor", /* authMiddleware */ listarDividasByCredor)
 router.patch("/divida/atualizarParcela/:id", autualizarParcela)
 router.patch("/divida/atualizarStatus/:id", alterarStatus)
 router.patch("/divida/resetarStatus", resetarStatus)
+router.patch("/divida/pagar/:id", pagar)
+router.patch("/divida/resetarSaldo", resetarSaldo)
 
 
 

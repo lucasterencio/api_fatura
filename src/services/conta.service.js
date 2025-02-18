@@ -25,7 +25,9 @@ export const listarDividaById = (id) => Conta.findOne({where: {id}})
 
 export const atualizarParcelaService = (id, parcelas) => Conta.update({parcelas:parcelas}, {where: {id}})
 
-export const saldoService = () => Saldo.findAll()
+export const saldoService = () => Saldo.findOne()
+
+export const resetarSaldoService = (id) => Saldo.update({valor: 0}, {where: {id}})
 
 export const atualizarStatusService = (id) => Conta.update({status: "Pago"}, {where: {id}}) 
 export const resetarStatusService = () => Conta.update({status: "Pendente"}, {where: {}}) 
