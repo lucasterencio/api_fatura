@@ -1,12 +1,11 @@
 import { Router } from "express";
-import { authMiddleware } from "../middlewares/auth.middleware.js";
 import { create, listarCredores } from "../controllers/credor.controller.js";
 
 
 const router = Router()
 
-router.post("/", /* authMiddleware */ create)
-router.get("/", /* authMiddleware */ listarCredores)
+router.post("/", create)
+router.get("/", listarCredores)
 
 
 

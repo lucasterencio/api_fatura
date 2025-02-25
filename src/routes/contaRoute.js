@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { authMiddleware } from "../middlewares/auth.middleware.js";
 import { parcelaMiddleware } from "../middlewares/parcela.middleware.js";
 import { 
     criarDivida, 
@@ -15,9 +14,9 @@ import {
 const router = Router()
 
 
-router.post("/divida/:id", /* authMiddleware */  criarDivida)
-router.get("/dividas", /* authMiddleware */ listarDividas)
-router.get("/dividas/:idCredor", /* authMiddleware */ listarDividasByCredor)
+router.post("/divida/:id", criarDivida)
+router.get("/dividas", listarDividas)
+router.get("/dividas/:idCredor", listarDividasByCredor)
 router.patch("/divida/atualizarParcela/:id", parcelaMiddleware, autualizarParcela)
 router.patch("/divida/atualizarStatus/:id", alterarStatus)
 router.patch("/divida/resetarStatus", resetarStatus)
